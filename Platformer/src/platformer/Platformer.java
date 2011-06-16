@@ -9,9 +9,10 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Platformer extends BasicGameState {
-	boolean left;
-	boolean right = true;
-	boolean jump;
+	boolean falling;
+	boolean jumping;
+	float velocityY;
+	float gravity = 0.3f;
 	int accTime;
 	float px = 0;
 	float py = 288;
@@ -40,32 +41,55 @@ public class Platformer extends BasicGameState {
 			accTime -= 20;
 			
 			if (input.isKeyDown(Input.KEY_RIGHT)) {
-				right = true;
-				if (!right) {
-					p = new Image("images/pr.png");
-				}
+				p = new Image("images/pr.png");
 				px += 4;
 			}
 			
 			if (input.isKeyDown(Input.KEY_LEFT)) {
-				left = true;
-				if (!left) {
-					p = new Image("images/pl.png");
-				}
+				p = new Image("images/pl.png");
 				px -= 4;
 			}
 			
 			if (input.isKeyDown(Input.KEY_SPACE)) {
-				jump = true;
-				if (!jump) {
-					p = new Image("images/j.png");
-				}
-				py -= 4;
+				p = new Image("images/j.png");
+				
+				jumping = true;
+				velocityY = 10.0f; 
+			}
+		}
+		
+		if (jumping){
+			py -= velocityY;
+
+			if (py > 100){
+				jumping = false;
+				falling = true;
+			}
+		}
+		
+		if (falling){
+			py += gravity;
+
+			if (py == 288){
+				falling = false;
 			}
 		}
 		
 		if (px > 448) {
 			px = 448;
+		} else if (py > 288) {
+			p = new Image("images/pr.png");
+			py = 288;
 		}
+		
+		
+	}
+	
+	public float getPlayerX() {
+		return px;
+	}
+	
+	public float getPlayerY() {
+		return py;
 	}
 }
