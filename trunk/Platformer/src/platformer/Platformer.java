@@ -9,9 +9,10 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Platformer extends BasicGameState {
+	boolean left, right = true;
 	int accTime;
-	float px = 0, py = 320 - 32;
-	Image p, w;
+	float px = 0, py = 288;
+	Image pr, pl, w;
 	Input input;
 	
 	public int getID() {
@@ -19,15 +20,21 @@ public class Platformer extends BasicGameState {
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sb) throws SlickException {
-		p = new Image("images/p.png");
+		pr = new Image("images/pr.png");
+		pl = new Image("images/pl.png");
 		//w = new Image("images/w.png");
 		
 		input = gc.getInput();
 	}
 
 	public void render(GameContainer gc, StateBasedGame sb, Graphics g) throws SlickException {
-		p.draw(px, py);
+		if (right) {
+			pr.draw(px, py);
+		}
 		
+		if (left) {
+			pl.draw(px, py);
+		}
 	}
 
 	public void update(GameContainer gc, StateBasedGame sb, int delta) throws SlickException {
@@ -37,12 +44,24 @@ public class Platformer extends BasicGameState {
 			accTime -= 20;
 			
 			if (input.isKeyDown(Input.KEY_RIGHT)) {
+				right = true;
 				px += 4;
+			}
+			
+			if (input.isKeyDown(Input.KEY_LEFT)) {
+				left = true;
+				px -= 4;
+			}
+			
+			if (input.isKeyDown(Input.KEY_SPACE)) {
+				while (py < py - 20) {
+					py--;
+				}
 			}
 		}
 		
-		if (px > 480 - 32) {
-			px = 480 - 32;
+		if (px > 448) {
+			px = 448;
 		}
 	}
 }
