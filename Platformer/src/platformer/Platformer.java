@@ -9,10 +9,13 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Platformer extends BasicGameState {
-	boolean left, right = true;
+	boolean left;
+	boolean right = true;
+	boolean jump;
 	int accTime;
-	float px = 0, py = 288;
-	Image pr, pl, w;
+	float px = 0;
+	float py = 288;
+	Image p;
 	Input input;
 	
 	public int getID() {
@@ -20,21 +23,14 @@ public class Platformer extends BasicGameState {
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sb) throws SlickException {
-		pr = new Image("images/pr.png");
-		pl = new Image("images/pl.png");
+		p = new Image("images/pr.png");	
 		//w = new Image("images/w.png");
 		
 		input = gc.getInput();
 	}
 
 	public void render(GameContainer gc, StateBasedGame sb, Graphics g) throws SlickException {
-		if (right) {
-			pr.draw(px, py);
-		}
-		
-		if (left) {
-			pl.draw(px, py);
-		}
+		p.draw(px, py);
 	}
 
 	public void update(GameContainer gc, StateBasedGame sb, int delta) throws SlickException {
@@ -45,18 +41,26 @@ public class Platformer extends BasicGameState {
 			
 			if (input.isKeyDown(Input.KEY_RIGHT)) {
 				right = true;
+				if (!right) {
+					p = new Image("images/pr.png");
+				}
 				px += 4;
 			}
 			
 			if (input.isKeyDown(Input.KEY_LEFT)) {
 				left = true;
+				if (!left) {
+					p = new Image("images/pl.png");
+				}
 				px -= 4;
 			}
 			
 			if (input.isKeyDown(Input.KEY_SPACE)) {
-				while (py < py - 20) {
-					py--;
+				jump = true;
+				if (!jump) {
+					p = new Image("images/j.png");
 				}
+				py -= 4;
 			}
 		}
 		
