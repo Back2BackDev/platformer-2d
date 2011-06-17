@@ -48,7 +48,7 @@ public class Platformer extends BasicGameState {
 				px -= 4;
 			}
 			
-			if (input.isKeyDown(Input.KEY_SPACE)) {
+			if (input.isKeyDown(Input.KEY_SPACE) && !jumping) {
 				jumping = true;
 				velocityY = 10.0f; 
 			}
