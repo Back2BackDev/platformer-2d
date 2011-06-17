@@ -9,10 +9,9 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Platformer extends BasicGameState {
-	boolean falling;
 	boolean jumping;
 	float velocityY;
-	float gravity = 0.3f;
+	float gravity = 0.7f;
 	int accTime;
 	float px = 0;
 	float py = 288;
@@ -51,31 +50,18 @@ public class Platformer extends BasicGameState {
 			if (input.isKeyDown(Input.KEY_SPACE) && !jumping) {
 				jumping = true;
 				velocityY = 10.0f; 
+				
+				py -= velocityY;
+			} else {
+				py += gravity;
 			}
-		}
-		
-		if (jumping){
-			py -= velocityY;
-
-			if (py > py - 100){
-				jumping = false;
-				falling = true;
-			}
-		}
-		
-		if (falling){
-			py += gravity;
 			
-			if (py == 288){
-				falling = false;
+			if (px > 448) {
+				px = 448;
+			} else if (py > 288) {
+				jumping = false;
+				py = 288;
 			}
-		}
-		
-		if (px > 448) {
-			px = 448;
-		} else if (py > 288) {
-			jumping = false;
-			py = 288;
 		}
 	}
 }
