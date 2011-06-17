@@ -12,7 +12,7 @@ public class Platformer extends BasicGameState {
 	boolean falling;
 	boolean jumping;
 	float velocityY;
-	float gravity = 0.3f;
+	float gravity = 0.4f;
 	int accTime;
 	float px = 0;
 	float py = 288;
@@ -46,12 +46,12 @@ public class Platformer extends BasicGameState {
 			}
 			
 			if (input.isKeyDown(Input.KEY_LEFT)) {
-				p = new Image("images/pl.png");
+				p = new Image("images/pr.png");
 				px -= 4;
 			}
 			
 			if (input.isKeyDown(Input.KEY_SPACE)) {
-				p = new Image("images/j.png");
+				p = new Image("images/pr.png");
 				
 				jumping = true;
 				velocityY = 10.0f; 
@@ -61,7 +61,7 @@ public class Platformer extends BasicGameState {
 		if (jumping){
 			py -= velocityY;
 
-			if (py > 100){
+			if (py > py - 100){
 				jumping = false;
 				falling = true;
 			}
@@ -69,7 +69,7 @@ public class Platformer extends BasicGameState {
 		
 		if (falling){
 			py += gravity;
-
+			
 			if (py == 288){
 				falling = false;
 			}
@@ -78,18 +78,8 @@ public class Platformer extends BasicGameState {
 		if (px > 448) {
 			px = 448;
 		} else if (py > 288) {
-			p = new Image("images/pr.png");
+			jumping = false;
 			py = 288;
 		}
-		
-		
-	}
-	
-	public float getPlayerX() {
-		return px;
-	}
-	
-	public float getPlayerY() {
-		return py;
 	}
 }
