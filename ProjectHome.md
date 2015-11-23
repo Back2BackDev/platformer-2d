@@ -1,0 +1,1 @@
+A small 2D platformer merely for entertainment purposes. Coded by Shannon.
